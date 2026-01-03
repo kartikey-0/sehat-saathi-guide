@@ -32,6 +32,15 @@ import {
   LogOut,
   ChevronDown,
   Activity,
+  Home as HomeIcon,
+  Stethoscope,
+  Pill,
+  Bot,
+  Hospital,
+  ShoppingBag,
+  Shield,
+  Lock,
+  Handshake,
 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
@@ -42,13 +51,13 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { path: '/', label: t.home, icon: Home, emoji: '🏠', color: 'bg-primary' },
-    { path: '/symptoms', label: t.symptomTracker, icon: Activity, emoji: '🩺', color: 'bg-rose-500' },
-    { path: '/tips', label: t.healthTips, icon: Lightbulb, emoji: '💡', color: 'bg-amber-500' },
-    { path: '/store', label: t.medicineStore, icon: Store, emoji: '💊', color: 'bg-emerald-500' },
-    { path: '/assistant', label: t.aiAssistant, icon: MessageCircle, emoji: '🤖', color: 'bg-blue-500' },
-    { path: '/schemes', label: t.sarkariYojana, icon: Building, emoji: '🏛️', color: 'bg-purple-500' },
-    { path: '/nearby', label: t.nearbyHospitals, icon: MapPin, emoji: '🏥', color: 'bg-cyan-500' },
+    { path: '/', label: t.home, icon: Home, iconComponent: HomeIcon, color: 'bg-primary' },
+    { path: '/symptoms', label: t.symptomTracker, icon: Activity, iconComponent: Stethoscope, color: 'bg-rose-500' },
+    { path: '/tips', label: t.healthTips, icon: Lightbulb, iconComponent: Lightbulb, color: 'bg-amber-500' },
+    { path: '/store', label: t.medicineStore, icon: Store, iconComponent: Pill, color: 'bg-emerald-500' },
+    { path: '/assistant', label: t.aiAssistant, icon: MessageCircle, iconComponent: Bot, color: 'bg-blue-500' },
+    { path: '/schemes', label: t.sarkariYojana, icon: Building, iconComponent: Shield, color: 'bg-purple-500' },
+    { path: '/nearby', label: t.nearbyHospitals, icon: MapPin, iconComponent: Hospital, color: 'bg-cyan-500' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -85,7 +94,7 @@ const Navbar: React.FC = () => {
                   size="sm"
                   className={`gap-2 ${isActive(item.path) ? '' : 'hover:bg-secondary'}`}
                 >
-                  <span className="text-base">{item.emoji}</span>
+                  <item.iconComponent className="w-4 h-4" />
                   <span className="hidden xl:inline">{item.label}</span>
                 </Button>
               </Link>
@@ -103,7 +112,7 @@ const Navbar: React.FC = () => {
                 {navItems.slice(5).map((item) => (
                   <DropdownMenuItem key={item.path} asChild>
                     <Link to={item.path} className="flex items-center gap-3 py-2">
-                      <span className="text-xl">{item.emoji}</span>
+                      <item.iconComponent className="w-5 h-5" />
                       <span>{item.label}</span>
                     </Link>
                   </DropdownMenuItem>
@@ -140,7 +149,7 @@ const Navbar: React.FC = () => {
             {/* Cart */}
             <Link to="/cart">
               <Button variant="outline" size="sm" className="relative border-2 gap-1">
-                <span className="text-lg">🛒</span>
+                <ShoppingBag className="w-5 h-5" />
                 {itemCount > 0 && (
                   <span className="absolute -top-2 -right-2 w-5 h-5 bg-destructive text-destructive-foreground text-xs rounded-full flex items-center justify-center font-bold animate-pulse">
                     {itemCount}
@@ -154,19 +163,19 @@ const Navbar: React.FC = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="gap-2 border-2">
-                    <span className="text-lg">👤</span>
+                    <User className="w-5 h-5" />
                     <span className="hidden sm:inline">{user?.name?.split(' ')[0]}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="border-2 border-border">
                   <DropdownMenuItem asChild>
                     <Link to="/profile" className="flex items-center gap-3 py-2">
-                      <span className="text-xl">👤</span>
+                      <User className="w-5 h-5" />
                       {t.myProfile}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={logout} className="flex items-center gap-3 py-2 text-destructive">
-                    <span className="text-xl">👋</span>
+                    <LogOut className="w-5 h-5" />
                     {t.logout}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -174,7 +183,7 @@ const Navbar: React.FC = () => {
             ) : (
               <Link to="/auth">
                 <Button size="sm" className="gap-2">
-                  <span className="text-lg">🔐</span>
+                  <Lock className="w-5 h-5" />
                   {t.login}
                 </Button>
               </Link>
@@ -203,7 +212,7 @@ const Navbar: React.FC = () => {
                         variant={isActive(item.path) ? 'default' : 'ghost'}
                         className="w-full justify-start gap-4 h-12 text-base"
                       >
-                        <span className="text-2xl">{item.emoji}</span>
+                        <item.iconComponent className="w-6 h-6" />
                         {item.label}
                       </Button>
                     </Link>

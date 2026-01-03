@@ -28,6 +28,15 @@ const queryClient = new QueryClient();
 const App = () => {
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    // Simulate loading completion after a short delay
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   if (loading) {
     return <LoadingScreen onComplete={() => setLoading(false)} />;
   }
