@@ -14,7 +14,6 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Index from "./pages/Index";
 import SymptomTracker from '@/components/SymptomTracker';
-import { ThemeProvider } from "@/components/theme-provider"
 import HealthTips from '@/components/HealthTips';
 import MedicineStore from '@/components/MedicineStore';
 import AIAssistant from '@/components/AIAssistant';
@@ -28,8 +27,7 @@ import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import Reminders from "@/pages/Reminders";
-
-
+import Offers from "@/components/Offers";
 
 const queryClient = new QueryClient();
 
@@ -106,7 +104,6 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <ThemeProvider>
         <LanguageProvider>
           <AuthProvider>
@@ -116,7 +113,6 @@ const App = () => {
                 <Sonner />
                 <BrowserRouter>
                   <ScrollToTopOnRouteChange />
-                  <div className="min-h-screen bg-background">
                   <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
                     <Navbar />
                     <Routes>
@@ -131,10 +127,11 @@ const App = () => {
                       <Route path="/checkout" element={<Checkout />} />
                       <Route path="/auth" element={<Auth />} />
                       <Route path="/profile" element={<Profile />} />
-                      <Route path="*" element={<NotFound />} />
                       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                       <Route path="/terms-and-conditions" element={<TermsConditions />} />
                       <Route path="/reminders" element={<Reminders />} />
+                      <Route path="/offers" element={<Offers />} />
+                      <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />
                     {/* NEW: Add the floating scroll to top button */}
