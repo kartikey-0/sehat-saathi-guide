@@ -184,11 +184,23 @@ const Footer: React.FC = () => {
                             </li>
                             <li className="flex items-center gap-2 text-muted-foreground text-sm">
                                 <Phone className="w-4 h-4" />
-                                <span>+91 1800-123-4567</span>
+                                <a
+                                    href="tel:+9118001234567"
+                                    aria-label="Call +91 1800-123-4567"
+                                    className="hover:text-primary"
+                                >
+                                    +91 1800-123-4567
+                                </a>
                             </li>
                             <li className="flex items-center gap-2 text-muted-foreground text-sm">
                                 <Mail className="w-4 h-4" />
-                                <span>support@swasthya.com</span>
+                                <a
+                                    href="mailto:support@swasthya.com"
+                                    aria-label="Email support@swasthya.com"
+                                    className="hover:text-primary"
+                                >
+                                    support@swasthya.com
+                                </a>
                             </li>
                         </ul>
                     </div>
