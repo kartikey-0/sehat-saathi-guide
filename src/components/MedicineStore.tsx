@@ -49,6 +49,7 @@ const MedicineStore: React.FC = () => {
 
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareData, setCompareData] = useState<any>(null);
+ 
 
   // Sort options for dropdown
   const sortOptions = [
@@ -314,6 +315,8 @@ const MedicineStore: React.FC = () => {
         </div>
       </div>
 
+   
+     
       {/* Empty State */}
       {sortedMedicines.length === 0 && searchQuery && (
         <div className="flex flex-col items-center justify-center py-16 empty-state">
@@ -355,6 +358,7 @@ const MedicineStore: React.FC = () => {
                 alt={medicine.name}
                 className="w-full h-full object-cover"
               />
+              
               {medicine.originalPrice > medicine.price && (
                 <Badge className="absolute top-2 right-2 bg-destructive">
                   <Tag className="w-3 h-3 mr-1" />
