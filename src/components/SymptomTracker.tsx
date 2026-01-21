@@ -10,6 +10,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Plus, Trash2, Calendar, Clock, FileText, Download } from "lucide-react";
 import VoiceInput from "@/components/VoiceInput";
+import { offlineDB } from "@/lib/offlineDB";
+import { syncQueue } from "@/lib/syncQueue";
+import { useOffline } from "@/hooks/useOffline";
+import { useAuth } from "@/contexts/AuthContext";
 
 import { exportToCSV, exportToPDF } from "@/lib/exportUtils";
 import {
@@ -42,6 +46,8 @@ const severityStyles = {
 const SymptomTracker: React.FC = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const { isOnline } = useOffline();
+  const { token } = useAuth();
   const [symptoms, setSymptoms] = useState<Symptom[]>(() => {
     const saved = localStorage.getItem("symptoms");
     try {
@@ -99,6 +105,55 @@ const SymptomTracker: React.FC = () => {
     };
 
     setSymptoms((prev) => [symptom, ...prev]);
+
+    // Save for Sync if offline or token available
+    const saveSymptom = async () => {
+      const symptomData = {
+        symptoms: [trimmed],
+        severity: triageResult?.severity || 'low',
+        notes: newDescription.trim(),
+        triageResult: triageResult ? {
+          severity: triageResult.severity,
+          message: triageResult.message,
+          recommendedAction: triageResult.recommendedAction
+        } : null
+      };
+
+      if (isOnline && token) {
+        try {
+          const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/symptoms`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(symptomData)
+          });
+
+          if (!response.ok) throw new Error('API failed');
+          console.log('Symptom synced immediately');
+        } catch (err) {
+          console.log('Sync failed, queuing offline');
+          await offlineDB.addToQueue({
+            type: 'symptom',
+            data: symptomData,
+            action: 'CREATE'
+          });
+        }
+      } else {
+        await offlineDB.addToQueue({
+          type: 'symptom',
+          data: symptomData,
+          action: 'CREATE'
+        });
+        if (!isOnline) {
+          toast.info(language === 'hi' ? 'ऑफ़लाइन सहेजा गया, बाद में सिंक होगा' : 'Saved offline, will sync later');
+        }
+      }
+    };
+
+    saveSymptom();
+
     setNewSymptom("");
     setNewDescription("");
     setError("");
