@@ -135,7 +135,7 @@ const HealthDashboard: React.FC = () => {
                 head: [['Symptom', 'Occurrence Count']],
                 body: symptomTableData,
                 theme: 'striped',
-                headStyles: { fillStyle: [139, 92, 246] }
+                headStyles: { fillColor: [139, 92, 246] }
             });
         }
 

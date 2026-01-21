@@ -18,6 +18,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useNavigate } from "react-router-dom";
+import { TrendingUp as TrendingIcon } from "lucide-react";
 
 const severityStyles = {
   low: {
@@ -39,6 +41,7 @@ const severityStyles = {
 
 const SymptomTracker: React.FC = () => {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
   const [symptoms, setSymptoms] = useState<Symptom[]>(() => {
     const saved = localStorage.getItem("symptoms");
     try {
@@ -230,8 +233,19 @@ const SymptomTracker: React.FC = () => {
       {/* ADD SYMPTOM */}
       <Card>
         <CardHeader className="bg-secondary">
-          <CardTitle className="flex items-center gap-3" id="add-symptom-title">
-            <Plus aria-hidden="true" /> {t.addSymptom}
+          <CardTitle className="flex flex-col sm:flex-row sm:items-center justify-between gap-3" id="add-symptom-title">
+            <div className="flex items-center gap-3">
+              <Plus aria-hidden="true" /> {t.addSymptom}
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/analytics')}
+              className="bg-background hover:bg-secondary gap-2 text-primary border-primary/20"
+            >
+              <TrendingIcon className="w-4 h-4" />
+              {language === 'hi' ? 'विस्तृत विश्लेषण' : 'Detailed Analytics'}
+            </Button>
           </CardTitle>
         </CardHeader>
 
