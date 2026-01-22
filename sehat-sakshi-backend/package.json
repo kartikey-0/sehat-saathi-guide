@@ -19,6 +19,7 @@
   "type": "commonjs",
   "dependencies": {
     "@types/nodemailer": "^7.0.5",
+    "@types/socket.io": "^3.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -27,9 +28,10 @@
     "helmet": "^7.2.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.5",
+    "mongoose": "^8.21.0",
     "node-cron": "^3.0.3",
     "socket.io": "^4.8.3",
+    "twilio": "^5.11.2",
     "uuid": "^9.0.1",
     "winston": "^3.19.0",
     "winston-daily-rotate-file": "^4.7.1"
