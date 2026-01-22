@@ -41,7 +41,6 @@ import OfflineIndicator from "@/components/OfflineIndicator";
 import HelpCenter from '@/pages/HelpCenter';
 import HelpArticle from '@/pages/HelpArticle';
 import VoiceNavigation from "@/components/voice/VoiceNavigation";
-import PrescriptionOCR from "@/pages/PrescriptionOCR";
 import CaregiverDashboard from "@/pages/CaregiverDashboard";
 import ContactUs from "@/pages/ContactUs";
 import Dashboard from "@/pages/Dashboard";
@@ -176,7 +175,6 @@ const App = () => {
                       <Route path="/contact" element={<ContactUs />} />
                       <Route path="/help" element={<HelpCenter />} />
                       <Route path="/help/article/:id" element={<HelpArticle />} />
-                      <Route path="/prescription-ocr" element={<PrescriptionOCR />} />
                       <Route path="/caregivers" element={<RequireAuth><CaregiverDashboard /></RequireAuth>} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>

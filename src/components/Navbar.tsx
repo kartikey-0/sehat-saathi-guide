@@ -38,8 +38,7 @@ import {
   Store,
   MessageCircle,
   Home,
-  FileText,
-  ScanEye
+  FileText
 } from 'lucide-react';
 import NotificationBell from '@/components/notifications/NotificationBell';
 
