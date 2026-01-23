@@ -8,13 +8,17 @@ import { asyncHandler } from '../middleware/errorHandler';
 
 const router = Router();
 
-// Bulk Sync Endpoint
+/**
+ * @route   POST /api/sync/bulk
+ * @desc    Receive batched offline data from frontend
+ */
 router.post('/bulk', protect, asyncHandler(async (req: AuthRequest, res: Response) => {
     if (!req.user) {
         res.status(401);
         throw new Error("User not authenticated");
     }
 
+    const userId = (req.user as any)._id;
     const { items } = req.body;
 
     if (!items || !Array.isArray(items)) {
@@ -25,45 +29,47 @@ router.post('/bulk', protect, asyncHandler(async (req: AuthRequest, res: Respons
     const results = {
         success: 0,
         failed: 0,
+        syncedIds: [] as any[],
         errors: [] as any[]
     };
 
     for (const item of items) {
         try {
+            const timestamp = item.timestamp || item.data?.createdAt || new Date();
+
             switch (item.type) {
                 case 'symptom':
                     await SymptomLog.create({
                         ...item.data,
-                        userId: (req.user as any)._id,
-                        // Ensure we keep the original creation time if provided, or default to now
-                        createdAt: item.data.createdAt || new Date()
+                        userId,
+                        createdAt: new Date(timestamp)
                     });
                     break;
 
                 case 'reminder_log':
                     await ReminderLog.create({
                         ...item.data,
-                        userId: (req.user as any)._id,
-                        takenAt: item.data.takenAt || new Date()
+                        userId,
+                        takenAt: item.data?.takenAt || new Date(timestamp)
                     });
                     break;
 
                 case 'order':
-                    // Basic order creation from offline data
-                    const orderData = item.data;
                     await Order.create({
-                        ...orderData,
-                        userId: (req.user as any)._id,
+                        ...item.data,
+                        userId,
                         status: 'pending',
-                        paymentStatus: 'pending', // Offline orders might need payment verification later
-                        createdAt: orderData.createdAt || new Date()
+                        paymentStatus: 'pending',
+                        createdAt: item.data?.createdAt || new Date(timestamp)
                     });
                     break;
 
                 default:
                     console.warn(`Unknown sync item type: ${item.type}`);
+                    continue; // Skip tracked IDs for unknown types
             }
             results.success++;
+            results.syncedIds.push(item.id);
         } catch (error: any) {
             console.error(`Sync failed for item ${item.id}:`, error);
             results.failed++;
@@ -74,6 +80,8 @@ router.post('/bulk', protect, asyncHandler(async (req: AuthRequest, res: Respons
     res.json({
         success: true,
         message: `Synced ${results.success} items. Failed: ${results.failed}`,
+        syncedCount: results.success,
+        syncedIds: results.syncedIds,
         results
     });
 }));

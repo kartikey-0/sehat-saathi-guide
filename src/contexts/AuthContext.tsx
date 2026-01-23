@@ -7,6 +7,7 @@ interface User {
   email: string;
   phone: string;
   profilePic?: string;
+  reputationPoints?: number;
 }
 
 interface AuthContextType {
@@ -39,9 +40,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       if (backendAvailable && savedToken) {
         try {
-          const data = await authAPI.getMe();
-          if ((data as any).user) {
-            setUser((data as any).user);
+          const data: any = await authAPI.getMe();
+          if (data.user) {
+            setUser(data.user);
             setToken(savedToken);
           }
         } catch {
@@ -73,11 +74,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       if (useBackend) {
-        const data = await authAPI.login(email, password);
-        if ((data as any).user && (data as any).token) {
-          localStorage.setItem('auth_token', (data as any).token);
-          setToken((data as any).token);
-          setUser((data as any).user);
+        const data: any = await authAPI.login(email, password);
+        if (data.user && data.token) {
+          localStorage.setItem('auth_token', data.token);
+          setToken(data.token);
+          setUser(data.user);
           return true;
         }
         return false;
@@ -101,11 +102,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const register = async (name: string, email: string, phone: string, password: string): Promise<boolean> => {
     try {
       if (useBackend) {
-        const data = await authAPI.register(name, email, phone, password);
-        if ((data as any).user && (data as any).token) {
-          localStorage.setItem('auth_token', (data as any).token);
-          setToken((data as any).token);
-          setUser((data as any).user);
+        const data: any = await authAPI.register(name, email, phone, password);
+        if (data.user && data.token) {
+          localStorage.setItem('auth_token', data.token);
+          setToken(data.token);
+          setUser(data.user);
           return true;
         }
         return false;
@@ -140,13 +141,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const updateProfile = async (updatedUser: User) => {
     try {
       if (useBackend) {
-        const data = await authAPI.updateProfile({
+        const data: any = await authAPI.updateProfile({
           name: updatedUser.name,
           phone: updatedUser.phone,
           profilePic: updatedUser.profilePic,
         });
-        if ((data as any).user) {
-          setUser((data as any).user);
+        if (data.user) {
+          setUser(data.user);
           return;
         }
       }
