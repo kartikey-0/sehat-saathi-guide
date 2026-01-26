@@ -13,6 +13,19 @@
 
 ---
 
+## 📊 Project Statistics
+
+### GitHub Stats
+
+![GitHub stars](https://img.shields.io/github/stars/Naman-iitm/sehat-saathi-guide?style=flat-square)
+![GitHub forks](https://img.shields.io/github/forks/Naman-iitm/sehat-saathi-guide?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/Naman-iitm/sehat-saathi-guide?style=flat-square)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Naman-iitm/sehat-saathi-guide?style=flat-square)
+![GitHub license](https://img.shields.io/github/license/Naman-iitm/sehat-saathi-guide?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/Naman-iitm/sehat-saathi-guide?style=flat-square)
+
+---
+
 [📖 Overview](#-overview) • [✨ Features](#-key-features) • [🏗️ Architecture](#-system-design) • [🚀 Get Started](#-installation) • [🤝 Support](#-contributing)
 
 </div>
